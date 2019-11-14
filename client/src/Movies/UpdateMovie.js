@@ -19,14 +19,16 @@ const UpdateMovie = (props) => {
 
 
     const handleChange = e => {
-        if (e.target.value === 'stars') {
-            e.target.value = e.target.value.split(',')
-        };
+        let value = e.target.value;
+        if (e.target.name === 'stars') {
+            value = value.split(',');
+        }
         setMovieData({
             ...movieData,
-            [e.target.name]: e.target.value
+            [e.target.name]: value
         })
     }
+
 
     const update = (e) => {
         e.preventDefault();
@@ -87,7 +89,7 @@ const UpdateMovie = (props) => {
             type="text"
             name="stars"
             id="stars"
-            placeholder="Stars"
+            placeholder="Stars (separated by commas)"
             value={movieData.stars}
             onChange={handleChange}
             />
