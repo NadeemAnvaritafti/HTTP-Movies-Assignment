@@ -11,11 +11,18 @@ const UpdateMovie = (props) => {
         stars: []
     });
 
+    useEffect(() => {
+        const movieToEdit = props.movies.find(movie => `${movie.id}` === props.match.params.id);
+        if (movieToEdit) {
+            setMovieData(movieToEdit);
+        }
+    }, [props.movies, props.match.params.id])
+
+
     const handleChange = e => {
         if (e.target.value === 'stars') {
             e.target.value = e.target.value.split(',')
         };
-        
         setMovieData({
             ...movieData,
             [e.target.name]: e.target.value
@@ -25,7 +32,10 @@ const UpdateMovie = (props) => {
     const update = (e) => {
         e.preventDefault();
         axios.put(`http://localhost:5000/api/movies/${movieData.id}`, movieData)
-        .then(res => console.log(res))
+        .then(res => {
+            console.log(res);
+            
+        })
         .catch(err => console.log(err));
     }
 
@@ -75,7 +85,7 @@ const UpdateMovie = (props) => {
             onChange={handleChange}
             />
 
-            <button className="button" type="submit">Submit</button>
+            <button type="submit">Submit</button>
 
         </form>
         </div>
