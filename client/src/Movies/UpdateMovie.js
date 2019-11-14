@@ -10,7 +10,6 @@ const UpdateMovie = (props) => {
         metascore: '',
         stars: []
     });
-
     useEffect(() => {
         const movieToEdit = props.movies.find(movie => `${movie.id}` === props.match.params.id);
         if (movieToEdit) {
@@ -33,8 +32,16 @@ const UpdateMovie = (props) => {
         e.preventDefault();
         axios.put(`http://localhost:5000/api/movies/${movieData.id}`, movieData)
         .then(res => {
-            console.log(res);
-            
+            console.log(res.data);
+            const updatedMovies = props.movies.map(movie => {
+                if (movie.id === res.data.id) {
+                    return res.data;
+                } else {
+                    return movie;
+                }
+            })
+            props.setMovies(updatedMovies);
+            props.history.push(`/movies/${movieData.id}`);
         })
         .catch(err => console.log(err));
     }
